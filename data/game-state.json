@@ -1,22 +1,23 @@
 {
   "players": {
     "Mike": {
-      "money": 0,
+      "money": -150,
       "shares": {
-        "NYNH": 4
+        "NYNH": 7
       }
     },
     "Sev": {
-      "money": 480,
+      "money": 280,
       "shares": {
-        "Sev": 1
+        "Sev": 1,
+        "NYNH": 2
       }
     }
   },
   "companies": {
     "NYNH": {
-      "money": -100,
-      "price": 100
+      "money": 250,
+      "price": 50
     },
     "NYC": {
       "money": 0,
@@ -56,6 +57,22 @@
     "Updated NYNH price to 100",
     "Player Mike bought a share of NYNH for 100",
     "Player Mike bought a share of NYNH for 100",
-    "Paid 100 per share for NYNH"
+    "Paid 100 per share for NYNH",
+    "Player Sev bought a share of NYNH for 100",
+    "Player Sev bought a share of NYNH for 100",
+    "Player Sev bought a share of NYNH for 100",
+    "Player Sev bought a share of NYNH for 100",
+    "Player Sev bought a share of NYNH for 100",
+    "Player Sev sold a share of NYNH for 100",
+    "Player Sev sold a share of NYNH for 100",
+    "Player Sev sold a share of NYNH for 100",
+    "Updated NYNH price to 50",
+    "Player Mike bought a share of NYNH for 50",
+    "Player Mike bought a share of NYNH for 50",
+    "Player Mike bought a share of NYNH for 50",
+    "Player Mike bought a share of NYNH for 50",
+    "Player Mike bought a share of NYNH for 50",
+    "Player Mike sold a share of NYNH for 50",
+    "Player Mike sold a share of NYNH for 50"
   ]
 }
