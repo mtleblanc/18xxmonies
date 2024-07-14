@@ -1,9 +1,9 @@
 {
   "players": {
     "Mike": {
-      "money": -100,
+      "money": 0,
       "shares": {
-        "NYNH": 1
+        "NYNH": 4
       }
     },
     "Sev": {
@@ -15,15 +15,47 @@
   },
   "companies": {
     "NYNH": {
-      "money": 1100
+      "money": -100,
+      "price": 100
     },
-    "Sev": {
-      "money": -480
+    "NYC": {
+      "money": 0,
+      "price": 150
+    },
+    "PRR": {
+      "money": 0,
+      "price": 200
+    },
+    "B&O": {
+      "money": 0,
+      "price": 200
+    },
+    "C&O": {
+      "money": 0,
+      "price": 100
+    },
+    "B&M": {
+      "money": 0,
+      "price": 150
+    },
+    "CPR": {
+      "money": 0,
+      "price": 200
+    },
+    "ERN": {
+      "money": 0,
+      "price": 200
     }
   },
   "log": [
     "Player Mike bought a share of NYNH for 100",
     "Updated NYNH money by 1000",
-    "Player Sev bought a share of Sev for -480"
+    "Player Sev bought a share of Sev for -480",
+    "Player Mike bought a share of NYNH for 100",
+    "Updated NYNH price to ",
+    "Updated NYNH price to 100",
+    "Player Mike bought a share of NYNH for 100",
+    "Player Mike bought a share of NYNH for 100",
+    "Paid 100 per share for NYNH"
   ]
 }

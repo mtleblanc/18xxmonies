@@ -33,14 +33,15 @@ router.get('/', (req, res) => {
 
 // Route to handle buying shares
 router.post('/buy-share', (req, res) => {
-  const { player, company, price } = req.body;
+  const { player, company } = req.body;
+  const price = gameState.companies[company].price;
   gameState.players[player] = gameState.players[player] || { money: 0, shares: {} };
   gameState.companies[company] = gameState.companies[company] || { money: 0 };
 
-  gameState.players[player].money -= parseInt(price, 10);
+  gameState.players[player].money -= price;
   gameState.players[player].shares[company] = (gameState.players[player].shares[company] || 0) + 1;
 
-  gameState.companies[company].money += parseInt(price, 10);
+  gameState.companies[company].money += price;
   gameState.log.push(`Player ${player} bought a share of ${company} for ${price}`);
 
   saveGameState();
@@ -49,14 +50,15 @@ router.post('/buy-share', (req, res) => {
 
 // Route to handle selling shares
 router.post('/sell-share', (req, res) => {
-  const { player, company, price } = req.body;
+  const { player, company } = req.body;
+  const price = gameState.companies[company].price;
   gameState.players[player] = gameState.players[player] || { money: 0, shares: {} };
   gameState.companies[company] = gameState.companies[company] || { money: 0 };
 
-  gameState.players[player].money += parseInt(price, 10);
+  gameState.players[player].money += price;
   gameState.players[player].shares[company] = (gameState.players[player].shares[company] || 1) - 1;
 
-  gameState.companies[company].money -= parseInt(price, 10);
+  gameState.companies[company].money -= price;
   gameState.log.push(`Player ${player} sold a share of ${company} for ${price}`);
 
   saveGameState();
@@ -91,6 +93,17 @@ router.post('/pay-per-share', (req, res) => {
   gameState.log.push(`Paid ${amount} per share for ${company}`);
 
   saveGameState();
+  res.redirect('/');
+});
+
+// Route to update company price
+router.post('/update-company-price', (req, res) => {
+  const { company, price } = req.body;
+  if (gameState.companies[company]) {
+    gameState.companies[company].price = parseInt(price, 10);
+    gameState.log.push(`Updated ${company} price to ${price}`);
+    saveGameState();
+  }
   res.redirect('/');
 });
 
