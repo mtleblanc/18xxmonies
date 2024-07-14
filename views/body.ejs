@@ -31,6 +31,48 @@
         <td>$<%= gameState.players[player].money %></td>
       </tr>
     <% } %>
+    <!-- Form to pay to each shareholder -->
+    <tr>
+      <td>Pay per Share</td>
+      <% for (const company in gameState.companies) { %>
+        <td>
+          <form action="/pay-per-share" method="POST">
+            <input type="hidden" name="company" value="<%= company %>">
+            <label>Amount: <input type="number" name="amount"></label>
+            <button type="submit">Pay</button>
+          </form>
+        </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <!-- Form to update company money -->
+    <tr>
+      <td>Update Money</td>
+      <% for (const company in gameState.companies) { %>
+        <td>
+          <form action="/update-company-money" method="POST">
+            <input type="hidden" name="company" value="<%= company %>">
+            <label>Amount: <input type="number" name="amount"></label>
+            <button type="submit">Update</button>
+          </form>
+        </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <!-- Form to update company price -->
+    <tr>
+      <td>Update Price</td>
+      <% for (const company in gameState.companies) { %>
+        <td>
+          <form action="/update-company-price" method="POST">
+            <input type="hidden" name="company" value="<%= company %>">
+            <label>Price: <input type="number" name="price"></label>
+            <button type="submit">Update</button>
+          </form>
+        </td>
+      <% } %>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 
@@ -47,44 +89,3 @@
     <li><%= move %></li>
   <% }) %>
 </ul>
-
-<h2>Actions</h2>
-
-<form action="/update-company-price" method="POST">
-  <h3>Update Company Price</h3>
-  <label>Company: 
-    <select name="company">
-      <% for (const company in gameState.companies) { %>
-        <option value="<%= company %>"><%= company %></option>
-      <% } %>
-    </select>
-  </label>
-  <label>Price: <input type="number" name="price"></label>
-  <button type="submit">Update Price</button>
-</form>
-
-<form action="/update-company-money" method="POST">
-  <h3>Update Company Money</h3>
-  <label>Company: 
-    <select name="company">
-      <% for (const company in gameState.companies) { %>
-        <option value="<%= company %>"><%= company %></option>
-      <% } %>
-    </select>
-  </label>
-  <label>Amount: <input type="number" name="amount"></label>
-  <button type="submit">Update</button>
-</form>
-
-<form action="/pay-per-share" method="POST">
-  <h3>Pay Per Share</h3>
-  <label>Company: 
-    <select name="company">
-      <% for (const company in gameState.companies) { %>
-        <option value="<%= company %>"><%= company %></option>
-      <% } %>
-    </select>
-  </label>
-  <label>Amount per Share: <input type="number" name="amount"></label>
-  <button type="submit">Pay</button>
-</form>

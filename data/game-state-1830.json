@@ -1,0 +1,40 @@
+{
+  "players": {
+  },
+  "companies": {
+    "NYNH": {
+      "money": 0,
+      "price": 100
+    },
+    "NYC": {
+      "money": 0,
+      "price": 100
+    },
+    "PRR": {
+      "money": 0,
+      "price": 100
+    },
+    "B&O": {
+      "money": 0,
+      "price": 100
+    },
+    "C&O": {
+      "money": 0,
+      "price": 100
+    },
+    "B&M": {
+      "money": 0,
+      "price": 100
+    },
+    "CPR": {
+      "money": 0,
+      "price": 100
+    },
+    "ERN": {
+      "money": 0,
+      "price": 100
+    }
+  },
+  "log": [
+  ]
+}
