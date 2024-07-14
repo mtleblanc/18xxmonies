@@ -1,0 +1,29 @@
+{
+  "players": {
+    "Mike": {
+      "money": -100,
+      "shares": {
+        "NYNH": 1
+      }
+    },
+    "Sev": {
+      "money": 480,
+      "shares": {
+        "Sev": 1
+      }
+    }
+  },
+  "companies": {
+    "NYNH": {
+      "money": 1100
+    },
+    "Sev": {
+      "money": -480
+    }
+  },
+  "log": [
+    "Player Mike bought a share of NYNH for 100",
+    "Updated NYNH money by 1000",
+    "Player Sev bought a share of Sev for -480"
+  ]
+}

@@ -28,7 +28,7 @@ loadGameState();
 
 // Home route
 router.get('/', (req, res) => {
-  res.render('index', { gameState });
+  res.render('layout', { gameState });
 });
 
 // Route to handle buying shares
