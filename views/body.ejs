@@ -4,7 +4,10 @@
     <tr>
       <th>Player</th>
       <% for (const company in gameState.companies) { %>
-        <th><%= company %></th>
+        <th>
+          <%= company %><br>
+          Money: $<%= gameState.companies[company].money %>
+        </th>
       <% } %>
       <th>Money</th>
     </tr>
@@ -38,7 +41,7 @@
         <td>
           <form action="/pay-per-share" method="POST">
             <input type="hidden" name="company" value="<%= company %>">
-            <label>Amount: <input type="number" name="amount"></label>
+            <label>Amount: <input type="number" name="amount" value="<%= gameState.companies[company].lastPayPerShare %>"></label>
             <button type="submit">Pay</button>
           </form>
         </td>
@@ -66,7 +69,7 @@
         <td>
           <form action="/update-company-price" method="POST">
             <input type="hidden" name="company" value="<%= company %>">
-            <label>Price: <input type="number" name="price"></label>
+            <label>Price: <input type="number" name="price" value="<%= gameState.companies[company].price %>"></label>
             <button type="submit">Update</button>
           </form>
         </td>
@@ -75,13 +78,6 @@
     </tr>
   </tbody>
 </table>
-
-<h2>Companies</h2>
-<ul>
-  <% for (const company in gameState.companies) { %>
-    <li><%= company %>: $<%= gameState.companies[company].money %> (Price: $<%= gameState.companies[company].price %>)</li>
-  <% } %>
-</ul>
 
 <h2>Recent Moves</h2>
 <ul>

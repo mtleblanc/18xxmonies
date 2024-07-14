@@ -4,35 +4,43 @@
   "companies": {
     "NYNH": {
       "money": 0,
-      "price": 100
+      "price": 100,
+      "lastPayPerShare": 10
     },
     "NYC": {
       "money": 0,
-      "price": 100
+      "price": 100,
+      "lastPayPerShare": 10
     },
     "PRR": {
       "money": 0,
-      "price": 100
+      "price": 100,
+      "lastPayPerShare": 10
     },
     "B&O": {
       "money": 0,
-      "price": 100
+      "price": 100,
+      "lastPayPerShare": 10
     },
     "C&O": {
       "money": 0,
-      "price": 100
+      "price": 100,
+      "lastPayPerShare": 10
     },
     "B&M": {
       "money": 0,
-      "price": 100
+      "price": 100,
+      "lastPayPerShare": 10
     },
     "CPR": {
       "money": 0,
-      "price": 100
+      "price": 100,
+      "lastPayPerShare": 10
     },
     "ERN": {
       "money": 0,
-      "price": 100
+      "price": 100,
+      "lastPayPerShare": 10
     }
   },
   "log": [
