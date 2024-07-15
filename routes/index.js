@@ -117,7 +117,8 @@ router.post('/pay-privates', (req, res) => {
     if (pc.isClosed || !pc.owner) {
       continue;
     }
-    const destination = findEntity[pc.owner];
+    const destination = findEntity(pc.owner);
+    destination.money = destination.money || 0;
     destination.money += pc.revenue;
     gameState.log.push(`${destination.name} gained ${pc.revenue} from ${pc.name}`);
   }
@@ -134,8 +135,10 @@ router.post('/sell-private', (req, res) => {
   const amount = parseInt(price, 10);
   pc.owner = target;
   if (source) {
+    source.money = source.money || 0;
     source.money += amount;
   }
+  dest.money = dest.money || 0;
   dest.money -= amount;
 
   gameState.log.push(`${pc.name} sold from ${source?.name || "Unowned"} to ${dest.name} for ${amount}`);
@@ -159,7 +162,7 @@ router.post('/close-private', (req, res) => {
 router.post('/update-player-money', (req, res) => {
   const { player, amount } = req.body;
   gameState.players[player] = gameState.players[player] || { money: 0 };
-
+  gameState.players[player].money = gameState.players[player].money || 0;
   gameState.players[player].money += parseInt(amount, 10);
   gameState.log.push(`${player} ${amount < 0 ? "spent" : "gained"} $${Math.abs(amount)}`);
 
