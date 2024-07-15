@@ -24,6 +24,17 @@ function saveGameState() {
   fs.writeFileSync(dataFilePath, JSON.stringify(gameState, null, 2));
 }
 
+// Broadcast the updated game state to all connected clients
+function broadcastGameState(req) {
+  const wss = req.app.get('wss'); // Get the WebSocket server instance from the app object
+  const message = JSON.stringify({ type: 'update', data: gameState });
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
+}
+
 loadGameState();
 
 // Home route
@@ -45,6 +56,7 @@ router.post('/buy-share', (req, res) => {
   gameState.log.push(`Player ${player} bought a share of ${company} for ${price}`);
 
   saveGameState();
+  broadcastGameState(req);
   res.redirect('/');
 });
 
@@ -62,6 +74,7 @@ router.post('/sell-share', (req, res) => {
   gameState.log.push(`Player ${player} sold a share of ${company} for ${price}`);
 
   saveGameState();
+  broadcastGameState(req);
   res.redirect('/');
 });
 
@@ -74,6 +87,7 @@ router.post('/update-company-money', (req, res) => {
   gameState.log.push(`Updated ${company} money by ${amount}`);
 
   saveGameState();
+  broadcastGameState(req);
   res.redirect('/');
 });
 
@@ -91,13 +105,14 @@ router.post('/pay-per-share', (req, res) => {
       const shares = gameState.players[player].shares[company] || 0;
       const payment = shares * payout;
       gameState.players[player].money += payment;
+      gameState.log.push(`${company} pays ${amount} per share`);
     }
-    gameState.log.push(`${company} pays ${amount} per share`);
   }
 
   gameState.companies[company].lastPayPerShare = payout;
 
   saveGameState();
+  broadcastGameState(req);
   res.redirect('/');
 });
 
@@ -108,6 +123,7 @@ router.post('/update-company-price', (req, res) => {
     gameState.companies[company].price = parseInt(price, 10);
     gameState.log.push(`Updated ${company} price to ${price}`);
     saveGameState();
+    broadcastGameState(req);
   }
   res.redirect('/');
 });
@@ -121,6 +137,7 @@ router.post('/update-player-money', (req, res) => {
   gameState.log.push(`Updated ${player} money by ${amount}`);
 
   saveGameState();
+  broadcastGameState(req);
   res.redirect('/');
 });
 
