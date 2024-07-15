@@ -52,7 +52,6 @@ router.post('/buy-share', (req, res) => {
   gameState.players[player].money -= price;
   gameState.players[player].shares[company] = (gameState.players[player].shares[company] || 0) + 1;
 
-  gameState.companies[company].money += price;
   gameState.log.push(`Player ${player} bought a share of ${company} for ${price}`);
 
   saveGameState();
@@ -70,7 +69,6 @@ router.post('/sell-share', (req, res) => {
   gameState.players[player].money += price;
   gameState.players[player].shares[company] = (gameState.players[player].shares[company] || 1) - 1;
 
-  gameState.companies[company].money -= price;
   gameState.log.push(`Player ${player} sold a share of ${company} for ${price}`);
 
   saveGameState();
