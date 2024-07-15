@@ -14,7 +14,7 @@ main {
   max-width: 800px;
 }
 form {
-  margin-bottom: 20px;
+  margin: 0;
 }
 table {
   width: 100%;
@@ -23,7 +23,7 @@ table {
 }
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 0px;
   text-align: center;
 }
 th {
@@ -31,9 +31,6 @@ th {
 }
 button {
   padding: 3px 3px;
-  margin: 0;
-}
-form {
   margin: 0;
 }
 form button {
