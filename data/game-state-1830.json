@@ -1,43 +1,55 @@
 {
   "players": {
+    "mike": {
+      "money": 480,
+      "shares": {}
+    }
   },
   "companies": {
-    "NYNH": {
+    "NYH": {
+      "name": "NYH",
       "money": 0,
       "price": 100,
       "lastPayPerShare": 10
     },
     "NYC": {
+      "name": "NYC",
       "money": 0,
       "price": 100,
       "lastPayPerShare": 10
     },
     "PRR": {
+      "name": "PRR",
       "money": 0,
       "price": 100,
       "lastPayPerShare": 10
     },
-    "B&O": {
+    "BO": {
+      "name": "B&O",
       "money": 0,
       "price": 100,
       "lastPayPerShare": 10
     },
-    "C&O": {
+    "CO": {
+      "name": "C&O",
       "money": 0,
       "price": 100,
       "lastPayPerShare": 10
     },
-    "B&M": {
+    "BM": {
+      "name": "B&M",
       "money": 0,
       "price": 100,
       "lastPayPerShare": 10
     },
     "CPR": {
+      "name": "CPR",
       "money": 0,
       "price": 100,
       "lastPayPerShare": 10
     },
-    "ERN": {
+    "ER": {
+      "name": "ER",
       "money": 0,
       "price": 100,
       "lastPayPerShare": 10

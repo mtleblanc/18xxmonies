@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   };
 
+  function updateCompany(company, data) {
+    for (const companyRun of document.querySelectorAll(`.company-${company}`)) {
+      const money = companyRun.querySelector('.company-money');
+      money !== null && (money.textContent = `${data.money}`);
+      const price = companyRun.querySelector('.company-price');
+      price !== null && (price.value = data.price);
+      const revenue = companyRun.querySelector('.company-last-pay');
+      revenue !== null && (revenue.value = data.lastPayPerShare);
+    }
+  }
   function updateGameState(gameState) {
     // Update player money and shares
     for (const player in gameState.players) {
@@ -25,12 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Update company money and price
     for (const company in gameState.companies) {
-      const companyCell = document.querySelector(`#company-${company}`);
-      if (companyCell) {
-        companyCell.querySelector('.company-money').textContent = `${gameState.companies[company].money}`;
-        companyCell.querySelector('.company-price').value = gameState.companies[company].price;
-        companyCell.querySelector('.company-last-pay').value = gameState.companies[company].lastPayPerShare;
-      }
+      updateCompany(company, gameState.companies[company]);
     }
 
     // Update recent moves
@@ -46,7 +51,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function handleFormSubmit(event) {
     event.preventDefault();
     const form = event.target;
+    console.log(event);
     const formData = new FormData(form);
+    const attr = event.submitter?.attributes;
+    const name = attr?.name?.nodeValue;
+    const value = attr?.value?.nodeValue;
+    if (name && value) {
+      formData.append(name, value);
+    }
     const action = form.action;
     const method = form.method.toUpperCase();
 

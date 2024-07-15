@@ -42,34 +42,16 @@ router.get('/', (req, res) => {
   res.render('layout', { gameState });
 });
 
-// Route to handle buying shares
-router.post('/buy-share', (req, res) => {
-  const { player, company } = req.body;
+router.post('/share-action', (req, res) => {
+  const { player, company, quantity } = req.body;
+  const qty = parseInt(quantity, 10);
   const price = gameState.companies[company].price;
   gameState.players[player] = gameState.players[player] || { money: 0, shares: {} };
-  gameState.companies[company] = gameState.companies[company] || { money: 0 };
 
-  gameState.players[player].money -= price;
-  gameState.players[player].shares[company] = (gameState.players[player].shares[company] || 0) + 1;
+  gameState.players[player].money -= price * qty;
+  gameState.players[player].shares[company] = (gameState.players[player].shares[company] || 0) + qty;
 
-  gameState.log.push(`Player ${player} bought a share of ${company} for ${price}`);
-
-  saveGameState();
-  broadcastGameState(req);
-  res.redirect('/');
-});
-
-// Route to handle selling shares
-router.post('/sell-share', (req, res) => {
-  const { player, company } = req.body;
-  const price = gameState.companies[company].price;
-  gameState.players[player] = gameState.players[player] || { money: 0, shares: {} };
-  gameState.companies[company] = gameState.companies[company] || { money: 0 };
-
-  gameState.players[player].money += price;
-  gameState.players[player].shares[company] = (gameState.players[player].shares[company] || 1) - 1;
-
-  gameState.log.push(`Player ${player} sold a share of ${company} for ${price}`);
+  gameState.log.push(`${player} ${qty > 0 ? "buys" : "sells"} ${Math.abs(qty)} shares of ${company} for ${price}`);
 
   saveGameState();
   broadcastGameState(req);
@@ -102,8 +84,8 @@ router.post('/pay-per-share', (req, res) => {
       const shares = gameState.players[player].shares[company] || 0;
       const payment = shares * payout;
       gameState.players[player].money += payment;
-      gameState.log.push(`${company} pays ${amount} per share`);
     }
+    gameState.log.push(`${company} pays ${amount} per share`);
   }
 
   gameState.companies[company].lastPayPerShare = payout;
