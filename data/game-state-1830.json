@@ -1,6 +1,7 @@
 {
   "players": {
     "mike": {
+      "name": "Mike",
       "money": 480,
       "shares": {}
     }
@@ -56,5 +57,31 @@
     }
   },
   "log": [
-  ]
+  ],
+  "privates" : {
+    "SV": {
+      "name": "Schuylkill Valley",
+      "revenue": 5
+    },
+    "CSL": {
+      "name": "Champlain & St. Lawrence",
+      "revenue": 10
+    },
+    "DH": {
+      "name": "Delaware & Hudson",
+      "revenue": 15
+    },
+    "MH": {
+      "name": "Mohawk & Hudson",
+      "revenue": 20
+    },
+    "CA": {
+      "name": "Camden & Amboy",
+      "revenue": 25
+    },
+    "BO": {
+      "name": "Baltimore & Ohio",
+      "revenue": 30
+    }
+  }
 }

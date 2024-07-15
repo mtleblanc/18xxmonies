@@ -5,64 +5,70 @@
       <th></th>
       <th>$</th>
       <% for (const company in gameState.companies) { %>
-        <th class="company-<%= company %>">
-          <%= gameState.companies[company].name %><br>
-          <span class="company-money"><%= gameState.companies[company].money %></span>
-        </th>
+      <th class="company-<%= company %>">
+        <%= gameState.companies[company].name %><br>
+        <span class="company-money">
+          <%= gameState.companies[company].money %>
+        </span>
+      </th>
       <% } %>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <% for (const player in gameState.players) { %>
-      <tr id="player-<%= player %>">
-        <td><%= player %></td>
-        <td class="player-money"><%= gameState.players[player].money %></td>
-        <% for (const company in gameState.companies) { %>
-          <td class="player-shares-<%= company %>">
-            <div class="buy-sell-container">
-              <form action="/share-action" method="POST">
-                <input type="hidden" name="quantity" value="1">
-                <input type="hidden" name="player" value="<%= player %>">
-                <input type="hidden" name="company" value="<%= company %>">
-                <button type="submit" class="buy-button">+</button>
-              </form>
-              <div class="quantity">
-                <%= gameState.players[player].shares[company] || 0 %>
-              </div>
-              <form action="/share-action" method="POST">
-                <input type="hidden" name="quantity" value="-1">
-                <input type="hidden" name="player" value="<%= player %>">
-                <input type="hidden" name="company" value="<%= company %>">
-                <button type="submit" class="sell-button">-</button>
-              </form>
-            </div>
-          </td>
-        <% } %>
-        <td>
-          <form action="/update-player-money" method="POST" class="input-button-container">
+    <tr id="player-<%= player %>">
+      <td>
+        <%= player %>
+      </td>
+      <td class="player-money">
+        <%= gameState.players[player].money %>
+      </td>
+      <% for (const company in gameState.companies) { %>
+      <td class="player-shares-<%= company %>">
+        <div class="buy-sell-container">
+          <form action="/share-action" method="POST">
+            <input type="hidden" name="quantity" value="1">
             <input type="hidden" name="player" value="<%= player %>">
-            <input type="text" name="amount" class="amount-input">
-            <button type="submit" class="add-button">+</button>
+            <input type="hidden" name="company" value="<%= company %>">
+            <button type="submit" class="buy-button">+</button>
           </form>
-        </td>
-      </tr>
+          <div class="quantity">
+            <%= gameState.players[player].shares[company] || 0 %>
+          </div>
+          <form action="/share-action" method="POST">
+            <input type="hidden" name="quantity" value="-1">
+            <input type="hidden" name="player" value="<%= player %>">
+            <input type="hidden" name="company" value="<%= company %>">
+            <button type="submit" class="sell-button">-</button>
+          </form>
+        </div>
+      </td>
+      <% } %>
+      <td>
+        <form action="/update-player-money" method="POST" class="input-button-container">
+          <input type="hidden" name="player" value="<%= player %>">
+          <input type="text" name="amount" class="amount-input">
+          <button type="submit" class="add-button">+</button>
+        </form>
+      </td>
+    </tr>
     <% } %>
     <!-- Form to pay to each shareholder -->
     <tr>
       <td>Run</td>
       <td></td>
       <% for (const company in gameState.companies) { %>
-        <td class="company-<%= company %>">
-          <form action="/pay-per-share" method="POST" class="pay-retain-form">
-            <input type="hidden" name="company" value="<%= company %>">
-            <input type="text" name="amount" value="<%= gameState.companies[company].lastPayPerShare %>" class="amount-input company-last-pay">
-            <div class="button-container">
-              <button type="submit" name="retains" value="true" class="retain-button">R</button>
-              <button type="submit" name="retains" value="false" class="pay-button">P</button>
-            </div>
-          </form>
-        </td>
+      <td class="company-<%= company %>">
+        <form action="/pay-per-share" method="POST" class="pay-retain-form">
+          <input type="hidden" name="company" value="<%= company %>">
+          <input type="text" name="amount" value="<%= gameState.companies[company].lastPayPerShare %>" class="amount-input company-last-pay">
+          <div class="button-container">
+            <button type="submit" name="retains" value="true" class="retain-button">R</button>
+            <button type="submit" name="retains" value="false" class="pay-button">P</button>
+          </div>
+        </form>
+      </td>
       <% } %>
       <td></td>
     </tr>
@@ -71,13 +77,13 @@
       <td>Stock</td>
       <td></td>
       <% for (const company in gameState.companies) { %>
-        <td class="company-<%= company %>">
-          <form action="/update-company-price" method="POST" class="input-button-container">
-            <input type="hidden" name="company" value="<%= company %>">
-            <input type="text" name="price" value="<%= gameState.companies[company].price %>" class="amount-input company-price">
-            <button type="submit" class="set-button">=</button>
-          </form>
-        </td>
+      <td class="company-<%= company %>">
+        <form action="/update-company-price" method="POST" class="input-button-container">
+          <input type="hidden" name="company" value="<%= company %>">
+          <input type="text" name="price" value="<%= gameState.companies[company].price %>" class="amount-input company-price">
+          <button type="submit" class="set-button">=</button>
+        </form>
+      </td>
       <% } %>
       <td></td>
     </tr>
@@ -86,22 +92,65 @@
       <td>$</td>
       <td></td>
       <% for (const company in gameState.companies) { %>
-        <td id="company-<%= company %>">
-          <form action="/update-company-money" method="POST" class="input-button-container">
-            <input type="hidden" name="company" value="<%= company %>">
-            <input type="text" name="amount" class="amount-input">
-            <button type="submit" class="add-button">+</button>
-          </form>
-        </td>
+      <td id="company-<%= company %>">
+        <form action="/update-company-money" method="POST" class="input-button-container">
+          <input type="hidden" name="company" value="<%= company %>">
+          <input type="text" name="amount" class="amount-input">
+          <button type="submit" class="add-button">+</button>
+        </form>
+      </td>
       <% } %>
       <td></td>
     </tr>
   </tbody>
 </table>
 
+<table>
+  <th></th>
+  <% let openPrivates = false %>
+  <% for (const key in gameState.privates) { %>
+  <% const pc = gameState.privates[key]; %>
+  <% if (!pc.isClosed) { %>
+  <% openPrivates = true %>
+  <tr id="private-<%= key %>">
+    <td><%= pc.name %> (<%= pc.revenue %>) </td>
+    <td class="private-owner"><%= gameState.players[pc.owner]?.name || gameState.companies[pc.owner]?.name || "Unowned" %></td>
+    <td>
+      <form action="/sell-private" method="POST" class="input-button-container">
+        <input type="hidden" name="key" value="<%= key %>">
+        <input type="text" name="price" class="amount-input">
+        <select name="target" id="private-sale-target">
+          <% for (const companyKey in gameState.companies) { %>
+          <option value="<%= companyKey %>"><%= gameState.companies[companyKey].name %></option>
+          <% } %>
+          <% for (const playerKey in gameState.players) { %>
+          <option value="<%= playerKey %>"><%= gameState.players[playerKey].name %></option>
+          <% } %>
+        </select>
+        <button type="submit" class="add-button">Sell</button>
+      </form>
+    </td>
+    <td>
+      <form action="/close-private" method="POST" class="input-button-container">
+        <input type="hidden" name="key" value="<%= key %>">
+        <button type="submit" class="add-button">Close</button>
+      </form>
+    </td>
+  </tr>
+  <% } %>
+  <% } %>
+</table>
+<% if (openPrivates) { %>
+<form action="/pay-privates" method="POST" class="input-button-container" id="pay-privates-button">
+  <button type="submit" class="add-button">Payout Private Companies</button>
+</form>
+<% } %>
+
 <h2>Recent Moves</h2>
 <ul id="recent-moves">
-  <% gameState.log.slice(-10).reverse().forEach(move => { %>
-    <li><%= move %></li>
+  <% gameState.log.slice(-10).reverse().forEach(move=> { %>
+  <li>
+    <%= move %>
+  </li>
   <% }) %>
 </ul>

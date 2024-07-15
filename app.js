@@ -16,6 +16,7 @@ const dataFilePath = path.join(__dirname, 'data/game-state.json');
 let gameState = {
   players: {},
   companies: {},
+  privates: {},
   log: []
 };
 

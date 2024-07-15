@@ -24,6 +24,10 @@ function saveGameState() {
   fs.writeFileSync(dataFilePath, JSON.stringify(gameState, null, 2));
 }
 
+function findEntity(key) {
+  return gameState.companies[key] || gameState.players[key];
+}
+
 // Broadcast the updated game state to all connected clients
 function broadcastGameState(req) {
   const wss = req.app.get('wss'); // Get the WebSocket server instance from the app object
@@ -104,6 +108,50 @@ router.post('/update-company-price', (req, res) => {
     saveGameState();
     broadcastGameState(req);
   }
+  res.redirect('/');
+});
+
+router.post('/pay-privates', (req, res) => {
+  for (const key in gameState.privates) {
+    const pc = gameState.privates[key];
+    if (pc.isClosed || !pc.owner) {
+      continue;
+    }
+    const destination = findEntity[pc.owner];
+    destination.money += pc.revenue;
+    gameState.log.push(`${destination.name} gained ${pc.revenue} from ${pc.name}`);
+  }
+  saveGameState();
+  broadcastGameState(req);
+  res.redirect('/');
+});
+
+router.post('/sell-private', (req, res) => {
+  const { key, target, price } = req.body;
+  const pc = gameState.privates[key];
+  const source = findEntity(pc.owner);
+  const dest = findEntity(target);
+  const amount = parseInt(price, 10);
+  pc.owner = target;
+  if (source) {
+    source.money += amount;
+  }
+  dest.money -= amount;
+
+  gameState.log.push(`${pc.name} sold from ${source?.name || "Unowned"} to ${dest.name} for ${amount}`);
+
+  saveGameState();
+  broadcastGameState(req);
+  res.redirect('/');
+});
+
+router.post('/close-private', (req, res) => {
+  const { key } = req.body;
+  const pc = gameState.privates[key];
+  pc.isClosed = true;
+  gameState.log.push(`${pc.name} closed`);
+  saveGameState();
+  broadcastGameState(req);
   res.redirect('/');
 });
 

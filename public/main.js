@@ -9,15 +9,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
   };
 
   function updateCompany(company, data) {
-    for (const companyRun of document.querySelectorAll(`.company-${company}`)) {
-      const money = companyRun.querySelector('.company-money');
+    for (const companyCell of document.querySelectorAll(`.company-${company}`)) {
+      const money = companyCell.querySelector('.company-money');
       money !== null && (money.textContent = `${data.money}`);
-      const price = companyRun.querySelector('.company-price');
+      const price = companyCell.querySelector('.company-price');
       price !== null && (price.value = data.price);
-      const revenue = companyRun.querySelector('.company-last-pay');
+      const revenue = companyCell.querySelector('.company-last-pay');
       revenue !== null && (revenue.value = data.lastPayPerShare);
     }
   }
+
+  function updatePrivate(key, data, gameState) {
+    for (const privateRow of document.querySelectorAll(`#private-${key}`)) {
+      console.log(privateRow);
+      if (!privateRow) {
+        continue;
+      }
+      if (data.isClosed) {
+        privateRow.remove();
+        continue;
+      }
+      const ownerCell = privateRow.querySelector('.private-owner');
+      ownerCell.textContent = gameState.players[data.owner]?.name || gameState.companies[data.owner]?.name || "Unowned";
+    }
+  }
+
   function updateGameState(gameState) {
     // Update player money and shares
     for (const player in gameState.players) {
@@ -36,6 +52,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Update company money and price
     for (const company in gameState.companies) {
       updateCompany(company, gameState.companies[company]);
+    }
+
+    for (const key in gameState.privates) {
+      updatePrivate(key, gameState.privates[key], gameState);
     }
 
     // Update recent moves
