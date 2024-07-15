@@ -30,8 +30,11 @@ th {
   background-color: #f2f2f2;
 }
 button {
-  padding: 5px 10px;
-  margin: 2px;
+  padding: 3px 3px;
+  margin: 0;
+}
+form {
+  margin: 0;
 }
 form button {
   display: inline-block;
@@ -39,6 +42,56 @@ form button {
 form label {
   display: block;
 }
-input[type="number"] {
-  max-width: 70px; /* Adjust the width as needed */
+.amount-input {
+  text-align: right;
+  width: 30px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.input-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-button-container button {
+  flex: 0 0 20px;
+  padding: 3px;
+  color: white;
+  background-color: darkcyan;
+  border: none;
+  cursor: pointer;
+  margin-left: 0;
+  box-sizing: border-box;
+}
+.pay-retain-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button-container {
+  display: flex;
+  width: 100%;
+}
+.retain-button, .pay-button {
+  flex: 1;
+  padding: 3px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-left: 0;
+  margin-right: 0;
+}
+.retain-button {
+  background-color: darkblue;
+}
+.pay-button {
+  background-color: darkgreen;
+}
+.retain-button:hover {
+  background-color: blue;
+}
+.pay-button:hover {
+  background-color: green;
 }

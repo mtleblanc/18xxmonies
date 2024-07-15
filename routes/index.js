@@ -91,8 +91,8 @@ router.post('/pay-per-share', (req, res) => {
       const shares = gameState.players[player].shares[company] || 0;
       const payment = shares * payout;
       gameState.players[player].money += payment;
-      gameState.log.push(`${company} pays ${amount} per share`);
     }
+    gameState.log.push(`${company} pays ${amount} per share`);
   }
 
   gameState.companies[company].lastPayPerShare = payout;

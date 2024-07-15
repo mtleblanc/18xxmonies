@@ -7,10 +7,10 @@
       <% for (const company in gameState.companies) { %>
         <th>
           <%= company %><br>
-          Money: $<%= gameState.companies[company].money %>
+          $<%= gameState.companies[company].money %>
         </th>
       <% } %>
-      <th>Update</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -34,46 +34,27 @@
           </td>
         <% } %>
         <td>
-          <form action="/update-player-money" method="POST">
+          <form action="/update-player-money" method="POST" class="input-button-container">
             <input type="hidden" name="player" value="<%= player %>">
-            <label>Amount: <input type="number" name="amount"></label>
-            <button type="submit">Update</button>
+            <input type="text" name="amount" class="amount-input">
+            <button type="submit">+</button>
           </form>
         </td>
       </tr>
     <% } %>
     <!-- Form to pay to each shareholder -->
     <tr>
-      <td>Pay per Share</td>
+      <td>Run</td>
       <td></td>
       <% for (const company in gameState.companies) { %>
         <td>
-          <form action="/pay-per-share" method="POST" style="display:inline;">
+          <form action="/pay-per-share" method="POST" class="pay-retain-form">
             <input type="hidden" name="company" value="<%= company %>">
-            <input type="hidden" name="retains" value="false">
-            <label>Amount: <input type="number" name="amount" value="<%= gameState.companies[company].lastPayPerShare %>"></label>
-            <button type="submit">Pay</button>
-          </form>
-          <form action="/pay-per-share" method="POST" style="display:inline;">
-            <input type="hidden" name="company" value="<%= company %>">
-            <input type="hidden" name="retains" value="true">
-            <input type="hidden" name="amount" value="<%= gameState.companies[company].lastPayPerShare %>">
-            <button type="submit">Retain</button>
-          </form>
-        </td>
-      <% } %>
-      <td></td>
-    </tr>
-    <!-- Form to update company money -->
-    <tr>
-      <td>Update Money</td>
-      <td></td>
-      <% for (const company in gameState.companies) { %>
-        <td>
-          <form action="/update-company-money" method="POST">
-            <input type="hidden" name="company" value="<%= company %>">
-            <label>Amount: <input type="number" name="amount"></label>
-            <button type="submit">Update</button>
+            <input type="text" name="amount" value="<%= gameState.companies[company].lastPayPerShare %>" class="amount-input">
+            <div class="button-container">
+              <button type="submit" name="retains" value="true" class="retain-button">R</button>
+              <button type="submit" name="retains" value="false" class="pay-button">P</button>
+            </div>
           </form>
         </td>
       <% } %>
@@ -81,14 +62,29 @@
     </tr>
     <!-- Form to update company price -->
     <tr>
-      <td>Update Price</td>
+      <td>Stock</td>
       <td></td>
       <% for (const company in gameState.companies) { %>
         <td>
-          <form action="/update-company-price" method="POST">
+          <form action="/update-company-price" method="POST" class="input-button-container">
             <input type="hidden" name="company" value="<%= company %>">
-            <label>Price: <input type="number" name="price" value="<%= gameState.companies[company].price %>"></label>
-            <button type="submit">Update</button>
+            <input type="text" name="price" value="<%= gameState.companies[company].price %>" class="amount-input">
+            <button type="submit">=</button>
+          </form>
+        </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <!-- Form to update company money -->
+    <tr>
+      <td>Cash</td>
+      <td></td>
+      <% for (const company in gameState.companies) { %>
+        <td>
+          <form action="/update-company-money" method="POST" class="input-button-container">
+            <input type="hidden" name="company" value="<%= company %>">
+            <input type="text" name="amount" class="amount-input">
+            <button type="submit">+</button>
           </form>
         </td>
       <% } %>
