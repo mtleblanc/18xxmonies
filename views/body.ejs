@@ -3,19 +3,21 @@
   <thead>
     <tr>
       <th>Player</th>
+      <th>Money</th>
       <% for (const company in gameState.companies) { %>
         <th>
           <%= company %><br>
           Money: $<%= gameState.companies[company].money %>
         </th>
       <% } %>
-      <th>Money</th>
+      <th>Update</th>
     </tr>
   </thead>
   <tbody>
     <% for (const player in gameState.players) { %>
       <tr>
         <td><%= player %></td>
+        <td>$<%= gameState.players[player].money %></td>
         <% for (const company in gameState.companies) { %>
           <td>
             <%= gameState.players[player].shares[company] || 0 %>
@@ -31,12 +33,19 @@
             </form>
           </td>
         <% } %>
-        <td>$<%= gameState.players[player].money %></td>
+        <td>
+          <form action="/update-player-money" method="POST">
+            <input type="hidden" name="player" value="<%= player %>">
+            <label>Amount: <input type="number" name="amount"></label>
+            <button type="submit">Update</button>
+          </form>
+        </td>
       </tr>
     <% } %>
     <!-- Form to pay to each shareholder -->
     <tr>
       <td>Pay per Share</td>
+      <td></td>
       <% for (const company in gameState.companies) { %>
         <td>
           <form action="/pay-per-share" method="POST" style="display:inline;">
@@ -58,6 +67,7 @@
     <!-- Form to update company money -->
     <tr>
       <td>Update Money</td>
+      <td></td>
       <% for (const company in gameState.companies) { %>
         <td>
           <form action="/update-company-money" method="POST">
@@ -72,6 +82,7 @@
     <!-- Form to update company price -->
     <tr>
       <td>Update Price</td>
+      <td></td>
       <% for (const company in gameState.companies) { %>
         <td>
           <form action="/update-company-price" method="POST">
