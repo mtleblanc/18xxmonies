@@ -95,3 +95,24 @@ form label {
 .pay-button:hover {
   background-color: green;
 }
+.buy-sell-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buy-button, .sell-button {
+  flex: 1;
+  padding: 3px;
+  color: white;
+  background-color: darkcyan;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin: 0 2px; /* Adjust the margin as needed */
+}
+
+.quantity {
+  flex: 1;
+  text-align: center;
+}

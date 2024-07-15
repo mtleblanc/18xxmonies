@@ -20,17 +20,21 @@
         <td>$<%= gameState.players[player].money %></td>
         <% for (const company in gameState.companies) { %>
           <td>
-            <%= gameState.players[player].shares[company] || 0 %>
-            <form action="/buy-share" method="POST" style="display:inline;">
-              <input type="hidden" name="player" value="<%= player %>">
-              <input type="hidden" name="company" value="<%= company %>">
-              <button type="submit">+</button>
-            </form>
-            <form action="/sell-share" method="POST" style="display:inline;">
-              <input type="hidden" name="player" value="<%= player %>">
-              <input type="hidden" name="company" value="<%= company %>">
-              <button type="submit">-</button>
-            </form>
+            <div class="buy-sell-container">
+              <form action="/buy-share" method="POST">
+                <input type="hidden" name="player" value="<%= player %>">
+                <input type="hidden" name="company" value="<%= company %>">
+                <button type="submit" class="buy-button">+</button>
+              </form>
+              <div class="quantity">
+                <%= gameState.players[player].shares[company] || 0 %>
+              </div>
+              <form action="/sell-share" method="POST">
+                <input type="hidden" name="player" value="<%= player %>">
+                <input type="hidden" name="company" value="<%= company %>">
+                <button type="submit" class="sell-button">-</button>
+              </form>
+            </div>
           </td>
         <% } %>
         <td>
