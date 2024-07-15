@@ -82,8 +82,7 @@ router.post('/update-company-money', (req, res) => {
   gameState.companies[company] = gameState.companies[company] || { money: 0 };
 
   gameState.companies[company].money += parseInt(amount, 10);
-  gameState.log.push(`Updated ${company} money by ${amount}`);
-
+  gameState.log.push(`${company} ${amount < 0 ? "spent" : "gained"} $${Math.abs(amount)}`);
   saveGameState();
   broadcastGameState(req);
   res.redirect('/');
@@ -132,7 +131,7 @@ router.post('/update-player-money', (req, res) => {
   gameState.players[player] = gameState.players[player] || { money: 0 };
 
   gameState.players[player].money += parseInt(amount, 10);
-  gameState.log.push(`Updated ${player} money by ${amount}`);
+  gameState.log.push(`${player} ${amount < 0 ? "spent" : "gained"} $${Math.abs(amount)}`);
 
   saveGameState();
   broadcastGameState(req);
