@@ -71,27 +71,30 @@ router.post('/update-company-money', (req, res) => {
   gameState.companies[company] = gameState.companies[company] || { money: 0 };
 
   gameState.companies[company].money += parseInt(amount, 10);
-  gameState.log.push(`Updated ${company} money by ${amount}`);
-
+  gameState.log.push(`${company} ${amount < 0 ? "spent" : "gained"} $${Math.abs(amount)}`);
   saveGameState();
   res.redirect('/');
 });
 
 // Route to pay players per share
 router.post('/pay-per-share', (req, res) => {
-  const { company, amount } = req.body;
+  const { company, amount, retains } = req.body;
   gameState.companies[company] = gameState.companies[company] || { money: 0 };
 
   const payout = parseInt(amount, 10);
-  for (const player in gameState.players) {
-    const shares = gameState.players[player].shares[company] || 0;
-    const payment = shares * payout;
-    gameState.players[player].money += payment;
-    gameState.companies[company].money -= payment;
+  if (retains === 'true') {
+    gameState.companies[company].money += payout * 10;
+    gameState.log.push(`${company} retains ${amount * 10}`);
+  } else {
+    for (const player in gameState.players) {
+      const shares = gameState.players[player].shares[company] || 0;
+      const payment = shares * payout;
+      gameState.players[player].money += payment;
+      gameState.log.push(`${company} pays ${amount} per share`);
+    }
   }
 
   gameState.companies[company].lastPayPerShare = payout;
-  gameState.log.push(`Paid ${amount} per share for ${company}`);
 
   saveGameState();
   res.redirect('/');

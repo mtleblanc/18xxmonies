@@ -39,10 +39,17 @@
       <td>Pay per Share</td>
       <% for (const company in gameState.companies) { %>
         <td>
-          <form action="/pay-per-share" method="POST">
+          <form action="/pay-per-share" method="POST" style="display:inline;">
             <input type="hidden" name="company" value="<%= company %>">
+            <input type="hidden" name="retains" value="false">
             <label>Amount: <input type="number" name="amount" value="<%= gameState.companies[company].lastPayPerShare %>"></label>
             <button type="submit">Pay</button>
+          </form>
+          <form action="/pay-per-share" method="POST" style="display:inline;">
+            <input type="hidden" name="company" value="<%= company %>">
+            <input type="hidden" name="retains" value="true">
+            <input type="hidden" name="amount" value="<%= gameState.companies[company].lastPayPerShare %>">
+            <button type="submit">Retain</button>
           </form>
         </td>
       <% } %>

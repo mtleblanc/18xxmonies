@@ -39,3 +39,6 @@ form button {
 form label {
   display: block;
 }
+input[type="number"] {
+  max-width: 70px; /* Adjust the width as needed */
+}
