@@ -19,7 +19,7 @@
     <% for (const player in gameState.players) { %>
     <tr id="player-<%= player %>">
       <td>
-        <%= player %>
+        <%= gameState.players[player].name %>
       </td>
       <td class="player-money">
         <%= gameState.players[player].money %>
@@ -45,13 +45,6 @@
         </div>
       </td>
       <% } %>
-      <td>
-        <form action="/update-player-money" method="POST" class="input-button-container">
-          <input type="hidden" name="player" value="<%= player %>">
-          <input type="text" name="amount" class="amount-input">
-          <button type="submit" class="add-button">+</button>
-        </form>
-      </td>
     </tr>
     <% } %>
     <!-- Form to pay to each shareholder -->
@@ -87,16 +80,78 @@
       <% } %>
       <td></td>
     </tr>
-    <!-- Form to update company money -->
     <tr>
-      <td>$</td>
+      <td>Station</td>
       <td></td>
       <% for (const company in gameState.companies) { %>
       <td id="company-<%= company %>">
-        <form action="/update-company-money" method="POST" class="input-button-container">
-          <input type="hidden" name="company" value="<%= company %>">
-          <input type="text" name="amount" class="amount-input">
-          <button type="submit" class="add-button">+</button>
+        <form action="/transfer" method="POST" class="input-button-container">
+          <input type="hidden" name="source" value="<%= company %>">
+          <input type="hidden" name="target" value="bank">
+          <button type="submit" name="amount" value="40" class="add-button">40</button>
+          <button type="submit" name="amount" value="100" class="add-button">100</button>
+        </form>
+      </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Blast</td>
+      <td></td>
+      <% for (const company in gameState.companies) { %>
+      <td id="company-<%= company %>">
+        <form action="/transfer" method="POST" class="input-button-container">
+          <input type="hidden" name="source" value="<%= company %>">
+          <input type="hidden" name="target" value="bank">
+          <button type="submit" name="amount" value="80" class="add-button">80</button>
+          <button type="submit" name="amount" value="120" class="add-button">120</button>
+        </form>
+      </td>
+      <% } %>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Trains</td>
+      <td></td>
+      <% for (const company in gameState.companies) { %>
+      <td id="company-<%= company %>">
+        <form action="/transfer" method="POST" class="input-button-container">
+          <input type="hidden" name="source" value="<%= company %>">
+          <input type="hidden" name="target" value="bank">
+          <button type="submit" name="amount" value="80" class="add-button">80</button>
+          <button type="submit" name="amount" value="180" class="add-button">180</button>
+          <button type="submit" name="amount" value="300" class="add-button">300</button>
+        </form>
+      </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <% for (const company in gameState.companies) { %>
+      <td id="company-<%= company %>">
+        <form action="/transfer" method="POST" class="input-button-container">
+          <input type="hidden" name="source" value="<%= company %>">
+          <input type="hidden" name="target" value="bank">
+          <button type="submit" name="amount" value="450" class="add-button">450</button>
+          <button type="submit" name="amount" value="630" class="add-button">630</button>
+        </form>
+      </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <% for (const company in gameState.companies) { %>
+      <td id="company-<%= company %>">
+        <form action="/transfer" method="POST" class="input-button-container">
+          <input type="hidden" name="source" value="<%= company %>">
+          <input type="hidden" name="target" value="bank">
+          <button type="submit" name="amount" value="800" class="add-button">800</button>
+          <button type="submit" name="amount" value="1100" class="add-button">1100</button>
         </form>
       </td>
       <% } %>
@@ -105,6 +160,29 @@
   </tbody>
 </table>
 
+<form action="/transfer" method="POST" class="input-button-container">
+  <label>Transfer<input type="text" name="amount" class="amount-input">
+  </label>
+  <label>From<select name="source">
+      <% for (const companyKey in gameState.companies) { %>
+      <option value="<%= companyKey %>"><%= gameState.companies[companyKey].name %></option>
+      <% } %>
+      <% for (const playerKey in gameState.players) { %>
+      <option value="<%= playerKey %>"><%= gameState.players[playerKey].name %></option>
+      <% } %>
+      <option value="bank">Bank</option>
+    </select></label>
+  <label>From<select name="target">
+      <% for (const companyKey in gameState.companies) { %>
+      <option value="<%= companyKey %>"><%= gameState.companies[companyKey].name %></option>
+      <% } %>
+      <% for (const playerKey in gameState.players) { %>
+      <option value="<%= playerKey %>"><%= gameState.players[playerKey].name %></option>
+      <% } %>
+      <option value="bank">Bank</option>
+    </select></label>
+  <button type="submit">Transfer</button>
+</form>
 <table>
   <th></th>
   <% let openPrivates = false %>

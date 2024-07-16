@@ -25,7 +25,15 @@ function saveGameState() {
 }
 
 function findEntity(key) {
+  if (key === "bank") {
+    return { name: "Bank" };
+  }
   return gameState.companies[key] || gameState.players[key];
+}
+
+function addMoney(entity, amount) {
+  entity.money = entity.money || 0;
+  entity.money += amount;
 }
 
 // Broadcast the updated game state to all connected clients
@@ -55,7 +63,7 @@ router.post('/share-action', (req, res) => {
   gameState.players[player].money -= price * qty;
   gameState.players[player].shares[company] = (gameState.players[player].shares[company] || 0) + qty;
 
-  gameState.log.push(`${player} ${qty > 0 ? "buys" : "sells"} ${Math.abs(qty)} shares of ${company} for ${price}`);
+  gameState.log.push(`${gameState.players[player].name} ${qty > 0 ? "buys" : "sells"} ${Math.abs(qty)} shares of ${company} for ${price}`);
 
   saveGameState();
   broadcastGameState(req);
@@ -67,8 +75,8 @@ router.post('/update-company-money', (req, res) => {
   const { company, amount } = req.body;
   gameState.companies[company] = gameState.companies[company] || { money: 0 };
 
-  gameState.companies[company].money += parseInt(amount, 10);
-  gameState.log.push(`${company} ${amount < 0 ? "spent" : "gained"} $${Math.abs(amount)}`);
+  addMoney(gameState.companies[company], parseInt(amount, 10));
+  gameState.log.push(`${gameState.companies[company].name} ${amount < 0 ? "spent" : "gained"} $${Math.abs(amount)}`);
   saveGameState();
   broadcastGameState(req);
   res.redirect('/');
@@ -81,15 +89,15 @@ router.post('/pay-per-share', (req, res) => {
 
   const payout = parseInt(amount, 10);
   if (retains === 'true') {
-    gameState.companies[company].money += payout * 10;
+    addMoney(gameState.companies[company], payout * 10);
     gameState.log.push(`${company} retains ${amount * 10}`);
   } else {
     for (const player in gameState.players) {
       const shares = gameState.players[player].shares[company] || 0;
       const payment = shares * payout;
-      gameState.players[player].money += payment;
+      addMoney(gameState.players[player], payment);
     }
-    gameState.log.push(`${company} pays ${amount} per share`);
+    gameState.log.push(`${gameState.companies[company].name} pays ${amount} per share`);
   }
 
   gameState.companies[company].lastPayPerShare = payout;
@@ -104,7 +112,7 @@ router.post('/update-company-price', (req, res) => {
   const { company, price } = req.body;
   if (gameState.companies[company]) {
     gameState.companies[company].price = parseInt(price, 10);
-    gameState.log.push(`Updated ${company} price to ${price}`);
+    gameState.log.push(`Updated ${gameState.companies[company].name} price to ${price}`);
     saveGameState();
     broadcastGameState(req);
   }
@@ -118,8 +126,7 @@ router.post('/pay-privates', (req, res) => {
       continue;
     }
     const destination = findEntity(pc.owner);
-    destination.money = destination.money || 0;
-    destination.money += pc.revenue;
+    addMoney(destination, pc.revenue);
     gameState.log.push(`${destination.name} gained ${pc.revenue} from ${pc.name}`);
   }
   saveGameState();
@@ -135,12 +142,9 @@ router.post('/sell-private', (req, res) => {
   const amount = parseInt(price, 10);
   pc.owner = target;
   if (source) {
-    source.money = source.money || 0;
-    source.money += amount;
+    addMoney(source, amount);
   }
-  dest.money = dest.money || 0;
-  dest.money -= amount;
-
+  addMoney(dest, -amount);
   gameState.log.push(`${pc.name} sold from ${source?.name || "Unowned"} to ${dest.name} for ${amount}`);
 
   saveGameState();
@@ -153,6 +157,24 @@ router.post('/close-private', (req, res) => {
   const pc = gameState.privates[key];
   pc.isClosed = true;
   gameState.log.push(`${pc.name} closed`);
+  saveGameState();
+  broadcastGameState(req);
+  res.redirect('/');
+});
+
+router.post('/transfer', (req, res) => {
+  const { source, target, amount: amountString } = req.body;
+  console.log(req.body);
+  let sourceEntity = findEntity(source);
+  let targetEntity = findEntity(target);
+  let amount = parseInt(amountString, 10);
+  if (!sourceEntity || !targetEntity || !amount) {
+    res.status(400).end();
+    return;
+  }
+  addMoney(sourceEntity, -amount);
+  addMoney(targetEntity, amount);
+  gameState.log.push(`${amount} transferred from ${sourceEntity.name} to ${targetEntity.name}`);
   saveGameState();
   broadcastGameState(req);
   res.redirect('/');
