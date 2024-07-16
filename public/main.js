@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
       price !== null && (price.value = data.price);
       const revenue = companyCell.querySelector('.company-last-pay');
       revenue !== null && (revenue.value = data.lastPayPerShare);
+      const ipoPool = companyCell.querySelector('.company-ipo-shares');
+      ipoPool !== null && (ipoPool.textContent = data.ipoShares);
+      const bankPool = companyCell.querySelector('.company-bank-shares');
+      bankPool !== null && (bankPool.textContent = data.bankPoolShares);
     }
   }
 

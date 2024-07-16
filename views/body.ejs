@@ -27,6 +27,13 @@
       <% for (const company in gameState.companies) { %>
       <td class="player-shares-<%= company %>">
         <div class="buy-sell-container">
+          <form action="/buy-ipo" method="POST">
+            <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="player" value="<%= player %>">
+            <input type="hidden" name="company" value="<%= company %>">
+            <button type="submit" class="buy-button">I</button>
+          </form>
+        <div class="buy-sell-container">
           <form action="/share-action" method="POST">
             <input type="hidden" name="quantity" value="1">
             <input type="hidden" name="player" value="<%= player %>">
@@ -76,6 +83,42 @@
           <input type="text" name="price" value="<%= gameState.companies[company].price %>" class="amount-input company-price">
           <button type="submit" class="set-button">=</button>
         </form>
+      </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Par</td>
+      <td></td>
+      <% for (const company in gameState.companies) { %>
+      <td class="company-<%= company %>">
+        <span class="company-par">
+          <%= gameState.companies[company].par %>
+        </span>
+      </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <tr>
+      <td>IPO</td>
+      <td></td>
+      <% for (const company in gameState.companies) { %>
+      <td class="company-<%= company %>">
+        <span class="company-ipo-shares">
+          <%= gameState.companies[company].ipoShares %>
+        </span>
+      </td>
+      <% } %>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Bank</td>
+      <td></td>
+      <% for (const company in gameState.companies) { %>
+      <td class="company-<%= company %>">
+        <span class="company-bank-shares">
+          <%= gameState.companies[company].bankPoolShares %>
+        </span>
       </td>
       <% } %>
       <td></td>
@@ -224,6 +267,12 @@
 </form>
 <% } %>
 
+<form action="/par-company" method="POST" class="input-button-container">
+  <label>Name: <input type="text" name="name"></label>
+  <label>Par: <input type="text" name="price"></label>
+  <button type="submit" class="add-button">Open company</button>
+</form>
+
 <h2>Recent Moves</h2>
 <ul id="recent-moves">
   <% gameState.log.slice(-10).reverse().forEach(move=> { %>
@@ -232,3 +281,17 @@
   </li>
   <% }) %>
 </ul>
+
+<form action="/new-game" method="POST" class="input-button-container">
+  <button type="submit" class="add-button">New Game</button>
+</form>
+
+<form action="/add-player" method="POST" class="input-button-container">
+  <label>Name: <input type="text" name="name"></label>
+  <button type="submit" class="add-button">Add player</button>
+</form>
+
+<form action="/initial-money" method="POST" class="input-button-container">
+  <label>Set all players to starting money <input type="text" name="amount"></label>
+  <button type="submit" class="add-button">Start</button>
+</form>
