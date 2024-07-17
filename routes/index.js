@@ -110,11 +110,37 @@ function initialMoney(amount) {
 function newGame() {
   const savePath = `${dataFilePath}.${new Date().toISOString()}`
   fs.writeFileSync(savePath, JSON.stringify(gameState, null, 2));
+  const privates = {
+    sv: {
+      "name": "Schuylkill Valley",
+      "revenue": 5
+    },
+    csl: {
+      "name": "Champlain & St. Lawrence",
+      "revenue": 10
+    },
+    dh: {
+      "name": "Delaware & Hudson",
+      "revenue": 15
+    },
+    mh: {
+      "name": "Mohawk & Hudson",
+      "revenue": 20
+    },
+    ca: {
+      "name": "Camden & Amboy",
+      "revenue": 25
+    },
+    bo: {
+      "name": "Baltimore & Ohio",
+      "revenue": 30
+    }
+  };
   gameState = {
     players: {},
     companies: {},
     log: [],
-    privates: startingPrivates
+    privates: privates
   };
 }
 

@@ -206,7 +206,7 @@
 <form action="/transfer" method="POST" class="input-button-container">
   <label>Transfer<input type="text" name="amount" class="amount-input">
   </label>
-  <label>From<select name="source">
+  <label>From: <select name="source">
       <% for (const companyKey in gameState.companies) { %>
       <option value="<%= companyKey %>"><%= gameState.companies[companyKey].name %></option>
       <% } %>
@@ -215,7 +215,7 @@
       <% } %>
       <option value="bank">Bank</option>
     </select></label>
-  <label>From<select name="target">
+  <label>To: <select name="target">
       <% for (const companyKey in gameState.companies) { %>
       <option value="<%= companyKey %>"><%= gameState.companies[companyKey].name %></option>
       <% } %>
