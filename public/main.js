@@ -8,7 +8,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   };
 
+  function updatePlayer(player, data, gameState) {
+    const playerRow = document.querySelector(`#player-${player}`);
+    if (!playerRow) {
+      location.reload();
+    }
+    if (playerRow) {
+      playerRow.querySelector('.player-money').textContent = `${data.money}`;
+      for (const company in gameState.companies) {
+        const sharesCell = playerRow.querySelector(`.player-shares-${company}`);
+        if (sharesCell) {
+          sharesCell.querySelector('.quantity').textContent = data.shares[company] || 0;
+        }
+      }
+    }
+  }
+
   function updateCompany(company, data) {
+    const companyElements = document.querySelectorAll(`.company-${company}`);
+    if(companyElements.length == 0) {
+      location.reload();
+    }
     for (const companyCell of document.querySelectorAll(`.company-${company}`)) {
       const money = companyCell.querySelector('.company-money');
       money !== null && (money.textContent = `${data.money}`);
@@ -21,6 +41,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const bankPool = companyCell.querySelector('.company-bank-shares');
       bankPool !== null && (bankPool.textContent = data.bankPoolShares);
     }
+
   }
 
   function updatePrivate(key, data, gameState) {
@@ -41,16 +62,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function updateGameState(gameState) {
     // Update player money and shares
     for (const player in gameState.players) {
-      const playerRow = document.querySelector(`#player-${player}`);
-      if (playerRow) {
-        playerRow.querySelector('.player-money').textContent = `${gameState.players[player].money}`;
-        for (const company in gameState.companies) {
-          const sharesCell = playerRow.querySelector(`.player-shares-${company}`);
-          if (sharesCell) {
-            sharesCell.querySelector('.quantity').textContent = gameState.players[player].shares[company] || 0;
-          }
-        }
-      }
+      updatePlayer(player, gameState.players[player], gameState);
     }
 
     // Update company money and price
