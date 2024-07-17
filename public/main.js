@@ -41,12 +41,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const bankPool = companyCell.querySelector('.company-bank-shares');
       bankPool !== null && (bankPool.textContent = data.bankPoolShares);
     }
-
   }
 
   function updatePrivate(key, data, gameState) {
     for (const privateRow of document.querySelectorAll(`#private-${key}`)) {
-      console.log(privateRow);
       if (!privateRow) {
         continue;
       }
@@ -60,6 +58,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   function updateGameState(gameState) {
+    // If the player or company count is off, we need to refresh.  Might be one added, or might be new game.
+    // Individual updates also make sure all are present
+    if(Object.keys(gameState.players).length != document.querySelectorAll('.player-money').length ||
+    Object.keys(gameState.companies).length != document.querySelectorAll('.company-money').length) {
+      location.reload();
+    }
     // Update player money and shares
     for (const player in gameState.players) {
       updatePlayer(player, gameState.players[player], gameState);
