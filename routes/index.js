@@ -3,7 +3,8 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
-const dataFilePath = path.join(__dirname, '../data/game-state.json');
+const dataFileDir = path.join(__dirname, '../data');
+const dataFilePath = path.join(dataFileDir, "game-state.json");
 const startingPrivates = {
   sv: {
     "name": "Schuylkill Valley",
@@ -108,7 +109,9 @@ function initialMoney(amount) {
 }
 
 function newGame() {
-  const savePath = `${dataFilePath}.${new Date().toISOString()}`
+  const backupFileSuffix = new Date().toISOString().replaceAll(":", "").replaceAll("-", "");
+  const backupFileName = `game-state-${backupFileSuffix}.json`;
+  const savePath = path.join(dataFileDir, backupFileName);
   fs.writeFileSync(savePath, JSON.stringify(gameState, null, 2));
   const privates = {
     sv: {
@@ -389,7 +392,6 @@ router.post('/close-private', (req, res) => {
 
 router.post('/transfer', (req, res) => {
   const { source, target, amount: amountString } = req.body;
-  console.log(req.body);
   let sourceEntity = findEntity(source);
   let targetEntity = findEntity(target);
   let amount = parseInt(amountString, 10);
